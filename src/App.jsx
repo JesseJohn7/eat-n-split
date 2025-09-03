@@ -1,6 +1,6 @@
 import { useState } from 'react'
+
 function App() {
-  
   const initialFriends = [
     {
       id: 118836,
@@ -21,10 +21,46 @@ function App() {
       balance: 0,
     },
   ];
-  
+
   return (
-    <div>Hello</div>
-  )
+    <div className='app'>
+      <div className="sidebar">
+        {/* pass friends down as a prop */}
+        <FriendsList friends={initialFriends} />
+      </div>
+    </div>
+  );
 }
 
-export default App
+function FriendsList({ friends }) {
+  return (
+    <ul>
+      {friends.map((friend) => (
+       <Friend friend={friend} key={friend.id}/>
+      ))}
+    </ul>
+  );
+}
+
+function Friend({friend}){
+  return  <li>
+      <img src={friend.image} alt={friend.name} />
+      <h3>{friend.name}</h3>
+
+      {friend.balance < 0 && (
+        <p className='red'>You owe {friend.name}{Math.abs(friend.balance)}$</p>
+      )}
+
+       {friend.balance > 0 && (
+        <p className='green'>{friend.name} owes you{Math.abs(friend.balance)}$</p>
+      )}
+
+       {friend.balance === 0 && (
+        <p>You and {friend.name} are even$</p>
+      )}
+
+      <button className='button'>Select</button>
+    </li>
+}
+
+export default App;
